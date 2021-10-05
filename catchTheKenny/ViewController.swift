@@ -25,9 +25,18 @@ class ViewController: UIViewController {
     @IBOutlet weak var kenny8: UIImageView!
     @IBOutlet weak var kenny9: UIImageView!
     
+    var timer = Timer()
+    var counter = 10
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        time.text = "Time; \(counter)"
+        
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerFunc), userInfo: nil, repeats: true)
+        
         
         score.text = "Score: \(score1)"
         
@@ -71,7 +80,20 @@ class ViewController: UIViewController {
         score.text = "\(score1)"
         
     }
+    
+    @objc func timerFunc() {
+        
+        counter = counter - 1
+        time.text = "Time; \(counter)"
+
+        
+        if counter == -1 {
+            
+            timer.invalidate()
+            time.text = "Time's Over!"
+        }
 
 
 }
 
+}
