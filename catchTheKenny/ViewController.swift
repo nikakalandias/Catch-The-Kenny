@@ -27,7 +27,7 @@ class ViewController: UIViewController {
     
     var timer = Timer()
     var counter = 10
-    
+    var kennyArray = [UIImageView]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,6 +72,17 @@ class ViewController: UIViewController {
         kenny8.addGestureRecognizer(recognizer8)
         kenny9.addGestureRecognizer(recognizer9)
         
+        kennyArray = [kenny1, kenny2, kenny3, kenny4, kenny5, kenny6, kenny7, kenny8, kenny9]
+        
+        hideKenny()
+        
+    }
+    
+    func hideKenny() {
+        
+        for kenny in kennyArray {
+            kenny.isHidden = true
+        }
     }
     
     @objc func increaseScore(){
