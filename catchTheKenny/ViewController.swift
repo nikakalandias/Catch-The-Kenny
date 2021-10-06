@@ -91,6 +91,23 @@ class ViewController: UIViewController {
             
             timer.invalidate()
             time.text = "Time's Over!"
+            
+            let alert = UIAlertController(title: "Time's Over!", message: "Do you want to play again?", preferredStyle: UIAlertController.Style.alert)
+            let okButton = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil)
+            let replay = UIAlertAction(title: "Replay", style: UIAlertAction.Style.default) { UIAlertAction in
+                self.score1 = 0
+                self.score.text = "Score: \(self.score1)"
+                
+                self.counter = 10
+                self.time.text = "Time; \(self.counter)"
+                
+                self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.timerFunc), userInfo: nil, repeats: true)
+                
+                
+            }
+            alert.addAction(okButton)
+            alert.addAction(replay)
+            self.present(alert, animated: true, completion: nil)
         }
 
 
