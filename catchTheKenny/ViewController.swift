@@ -28,15 +28,31 @@ class ViewController: UIViewController {
     var timer = Timer()
     var counter = 10
     var kennyArray = [UIImageView]()
+    var hideTimer = Timer()
+    var highScores = 0
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let storedHighScore = UserDefaults.standard.object(forKey: "highScoreZ")
+        
+        if storedHighScore == nil {
+            highScores = 0
+            highScore.text = "Highscore: \(highScores)"
+
+        }
+        
+        if let newScore = storedHighScore as? Int {
+            highScores = newScore
+            highScore.text = "Highscore: \(highScores)"
+            
+        }
         
         time.text = "Time; \(counter)"
         
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerFunc), userInfo: nil, repeats: true)
-        
+        hideTimer = Timer.scheduledTimer(timeInterval: 0.6, target: self, selector: #selector(hideKenny), userInfo: nil, repeats: true)
         
         score.text = "Score: \(score1)"
         
@@ -78,17 +94,24 @@ class ViewController: UIViewController {
         
     }
     
-    func hideKenny() {
+   @objc func hideKenny() {
         
         for kenny in kennyArray {
             kenny.isHidden = true
         }
+        
+        let random = Int(arc4random_uniform(UInt32(kennyArray.count - 1)))
+        kennyArray[random].isHidden = false
+        
+        
+        
     }
     
     @objc func increaseScore(){
         
         score1 = score1 + 1
         score.text = "\(score1)"
+        
         
     }
     
@@ -101,10 +124,30 @@ class ViewController: UIViewController {
         if counter == -1 {
             
             timer.invalidate()
+            hideTimer.invalidate()
             time.text = "Time's Over!"
             
+            for kenny in kennyArray {
+                kenny.isHidden = true
+            }
+            
+            if self.score1 > self.highScores {
+                self.highScores = self.score1
+                highScore.text = "Highscore: \(self.highScores)"
+                UserDefaults.standard.setValue(self.highScores, forKey: "highScoreZ")
+                
+            }
+            
             let alert = UIAlertController(title: "Time's Over!", message: "Do you want to play again?", preferredStyle: UIAlertController.Style.alert)
-            let okButton = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil)
+            let okButton = UIAlertAction(title: "OK", style: UIAlertAction.Style.default) { UIAlertAction in
+                
+                for kenny in self.kennyArray {
+                    kenny.isHidden = false
+                    kenny.isUserInteractionEnabled = false
+                }
+                
+            }
+            
             let replay = UIAlertAction(title: "Replay", style: UIAlertAction.Style.default) { UIAlertAction in
                 self.score1 = 0
                 self.score.text = "Score: \(self.score1)"
@@ -113,9 +156,11 @@ class ViewController: UIViewController {
                 self.time.text = "Time; \(self.counter)"
                 
                 self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.timerFunc), userInfo: nil, repeats: true)
-                
-                
+                self.hideTimer = Timer.scheduledTimer(timeInterval: 0.6, target: self, selector: #selector(self.hideKenny), userInfo: nil, repeats: true)
+
+
             }
+            
             alert.addAction(okButton)
             alert.addAction(replay)
             self.present(alert, animated: true, completion: nil)
