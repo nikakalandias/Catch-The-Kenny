@@ -164,6 +164,7 @@ class ViewController: UIViewController {
                 
             }
             
+            
             let alert = UIAlertController(title: "Time's Over!", message: "Do you want to play again?", preferredStyle: UIAlertController.Style.alert)
             let okButton = UIAlertAction(title: "OK", style: UIAlertAction.Style.default) { UIAlertAction in
                 
