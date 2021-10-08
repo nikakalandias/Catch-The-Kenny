@@ -24,6 +24,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var kenny7: UIImageView!
     @IBOutlet weak var kenny8: UIImageView!
     @IBOutlet weak var kenny9: UIImageView!
+    @IBOutlet weak var againButt: UIButton!
     
     var timer = Timer()
     var counter = 10
@@ -31,9 +32,12 @@ class ViewController: UIViewController {
     var hideTimer = Timer()
     var highScores = 0
     
-    
     override func viewDidLoad() {
+        
         super.viewDidLoad()
+        
+        againButt.isHidden = true
+            
         
         let storedHighScore = UserDefaults.standard.object(forKey: "highScoreZ")
         
@@ -92,9 +96,31 @@ class ViewController: UIViewController {
         
         hideKenny()
         
+        
     }
     
-   @objc func hideKenny() {
+    
+    @IBAction func againButton(_ sender: Any) {
+        
+        againButt.isHidden = true
+        
+        for kenny in self.kennyArray {
+            kenny.isUserInteractionEnabled = true
+        }
+        
+        score1 = 0
+        score.text = "Score: \(score1)"
+        
+        counter = 10
+        time.text = "Time; \(counter)"
+        
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerFunc), userInfo: nil, repeats: true)
+        hideTimer = Timer.scheduledTimer(timeInterval: 0.6, target: self, selector: #selector(hideKenny), userInfo: nil, repeats: true)
+        
+    }
+    
+    
+    @objc func hideKenny() {
         
         for kenny in kennyArray {
             kenny.isHidden = true
@@ -144,6 +170,7 @@ class ViewController: UIViewController {
                 for kenny in self.kennyArray {
                     kenny.isHidden = false
                     kenny.isUserInteractionEnabled = false
+                    self.againButt.isHidden = false
                 }
                 
             }
