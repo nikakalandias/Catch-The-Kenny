@@ -15,3 +15,14 @@ Huh! My project almost done.
 I used all the knowledge I learned in this project.
 
 I continue to improve myself.
+
+
+# 10.10.2021
+ 
+My project is done (for now).
+I really improved my coding skills with this project.
+This project taught me too much things.
+
+I put icon in my app and downloaded it to my phone. This motivated me a lot.
+
+I still progress on my way!
