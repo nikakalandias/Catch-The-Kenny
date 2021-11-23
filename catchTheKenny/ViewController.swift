@@ -24,6 +24,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var kenny7: UIImageView!
     @IBOutlet weak var kenny8: UIImageView!
     @IBOutlet weak var kenny9: UIImageView!
+
     @IBOutlet weak var againButt: UIButton!
     
     var timer = Timer()
@@ -37,7 +38,9 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         againButt.isHidden = true
-            
+        
+        againButt.layer.cornerRadius = 15
+        againButt.layer.masksToBounds = true
         
         let storedHighScore = UserDefaults.standard.object(forKey: "highScoreZ")
         
@@ -146,6 +149,8 @@ class ViewController: UIViewController {
         counter = counter - 1
         time.text = "Time; \(counter)"
 
+        
+        // When time's over
         
         if counter == -1 {
             
